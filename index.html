@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kasa Defteri" />
+  <title>Kasa Defteri</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      background: #0f1117;
+      color: #e8e0d0;
+      font-family: Georgia, serif;
+      min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+    .header {
+      background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%);
+      border-bottom: 1px solid #2a2f3e;
+      padding: 20px 16px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .header-label {
+      font-size: 11px;
+      color: #6b7280;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 2px;
+    }
+
+    .header-title {
+      font-size: 22px;
+      font-weight: bold;
+      color: #f0e8d8;
+    }
+
+    .btn-add {
+      background: linear-gradient(135deg, #d4a84b, #b8860b);
+      border: none;
+      border-radius: 12px;
+      color: #0f1117;
+      font-weight: bold;
+      font-size: 24px;
+      width: 44px;
+      height: 44px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(212,168,75,0.3);
+      flex-shrink: 0;
+    }
+
+    /* SUMMARY CARDS */
+    .summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      border-radius: 10px;
+      padding: 10px 6px;
+      text-align: center;
+    }
+
+    .card-label {
+      font-size: 9px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .card-value {
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      border-bottom: 1px solid #2a2f3e;
+    }
+
+    .tab {
+      flex: 1;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: #6b7280;
+      font-size: 13px;
+      padding: 8px 0;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .tab.active {
+      color: #d4a84b;
+      border-bottom-color: #d4a84b;
+      font-weight: bold;
+    }
+
+    /* ENTRIES */
+    .entries {
+      padding: 12px 16px 100px;
+    }
+
+    .empty {
+      text-align: center;
+      padding: 60px 20px;
+      color: #4b5563;
+    }
+
+    .empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-text { font-size: 15px; }
+    .empty-sub { font-size: 13px; margin-top: 6px; }
+
+    .entry {
+      background: #1a1f2e;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .entry-left { flex: 1; min-width: 0; }
+
+    .entry-meta {
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 3px;
+    }
+
+    .entry-desc {
+      font-size: 14px;
+      color: #e8e0d0;
+      margin-bottom: 4px;
+      word-break: break-word;
+    }
+
+    .entry-cumulative {
+      font-size: 10px;
+      color: #4b5563;
+    }
+
+    .entry-right { text-align: right; }
+
+    .entry-amount {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .entry-actions { display: flex; gap: 6px; justify-content: flex-end; }
+
+    .btn-edit, .btn-del {
+      border-radius: 6px;
+      font-size: 11px;
+      padding: 3px 8px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-edit {
+      background: rgba(212,168,75,0.1);
+      border: 1px solid rgba(212,168,75,0.2);
+      color: #d4a84b;
+    }
+
+    .btn-del {
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.2);
+      color: #f87171;
+    }
+
+    /* MODAL OVERLAY */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 100;
+      display: flex;
+      align-items: flex-end;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .sheet {
+      background: #1a1f2e;
+      border-top: 1px solid #2a2f3e;
+      border-radius: 20px 20px 0 0;
+      padding: 24px;
+      width: 100%;
+    }
+
+    .sheet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .sheet-title {
+      font-size: 17px;
+      font-weight: bold;
+      color: #f0e8d8;
+    }
+
+    .btn-close {
+      background: #2a2f3e;
+      border: none;
+      border-radius: 8px;
+      color: #9ca3af;
+      font-size: 20px;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .type-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .btn-type {
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .field-label {
+      font-size: 11px;
+      color: #6b7280;
+      margin-bottom: 6px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .field-wrap { margin-bottom: 12px; }
+
+    input[type="date"],
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      background: #0f1117;
+      border: 1px solid #2a2f3e;
+      border-radius: 10px;
+      color: #e8e0d0;
+      font-size: 15px;
+      padding: 10px 14px;
+      font-family: inherit;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="number"] { font-size: 20px; font-weight: bold; }
+
+    .btn-save {
+      width: 100%;
+      background: linear-gradient(135deg, #d4a84b, #b8860b);
+      border: none;
+      border-radius: 12px;
+      color: #0f1117;
+      font-size: 16px;
+      font-weight: bold;
+      padding: 14px;
+      cursor: pointer;
+      font-family: inherit;
+      margin-top: 8px;
+      box-shadow: 0 4px 16px rgba(212,168,75,0.3);
+    }
+
+    /* CONFIRM DIALOG */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 24px;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    .confirm-box {
+      background: #1a1f2e;
+      border: 1px solid #2a2f3e;
+      border-radius: 16px;
+      padding: 24px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .confirm-icon { font-size: 32px; margin-bottom: 12px; }
+    .confirm-title { font-size: 16px; font-weight: bold; margin-bottom: 8px; }
+    .confirm-sub { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
+
+    .confirm-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn-cancel {
+      background: #2a2f3e;
+      border: none;
+      border-radius: 10px;
+      color: #e8e0d0;
+      font-size: 14px;
+      padding: 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-confirm-del {
+      background: rgba(248,113,113,0.15);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 10px;
+      color: #f87171;
+      font-size: 14px;
+      font-weight: bold;
+      padding: 12px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-label">📒 Kasa Defteri</div>
+      <div class="header-title">Hesap Özeti</div>
+    </div>
+    <button class="btn-add" onclick="openForm()">+</button>
+  </div>
+
+  <div class="summary">
+    <div class="card" id="card-giris" style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.15)">
+      <div class="card-label">Toplam Giriş</div>
+      <div class="card-value" style="color:#4ade80" id="total-giris">0 ₺</div>
+    </div>
+    <div class="card" id="card-cikis" style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.15)">
+      <div class="card-label">Toplam Çıkış</div>
+      <div class="card-value" style="color:#f87171" id="total-cikis">0 ₺</div>
+    </div>
+    <div class="card" id="card-bakiye" style="background:rgba(212,168,75,0.1);border:1px solid rgba(212,168,75,0.2)">
+      <div class="card-label">Bakiye</div>
+      <div class="card-value" id="total-bakiye" style="color:#d4a84b">0 ₺</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="setTab('all',this)">Tümü</button>
+    <button class="tab" onclick="setTab('giris',this)">Giriş</button>
+    <button class="tab" onclick="setTab('cikis',this)">Çıkış</button>
+  </div>
+</div>
+
+<!-- ENTRIES -->
+<div class="entries" id="entries-list"></div>
+
+<!-- FORM MODAL -->
+<div class="overlay hidden" id="form-overlay">
+  <div class="sheet">
+    <div class="sheet-header">
+      <div class="sheet-title" id="form-title">Yeni Kayıt</div>
+      <button class="btn-close" onclick="closeForm()">×</button>
+    </div>
+
+    <div class="type-toggle">
+      <button class="btn-type" id="btn-giris" onclick="setType('giris')"
+        style="background:rgba(74,222,128,0.15);border:1.5px solid #4ade80;color:#4ade80">
+        📥 Giriş
+      </button>
+      <button class="btn-type" id="btn-cikis" onclick="setType('cikis')"
+        style="background:#0f1117;border:1.5px solid #2a2f3e;color:#6b7280">
+        📤 Çıkış
+      </button>
+    </div>
+
+    <div class="field-wrap">
+      <div class="field-label">Tarih</div>
+      <input type="date" id="f-date" />
+    </div>
+
+    <div class="field-wrap">
+      <div class="field-label">Açıklama</div>
+      <input type="text" id="f-desc" placeholder="Örn: Müşteri ödemesi, Fatura..." />
+    </div>
+
+    <div class="field-wrap" style="margin-bottom:20px">
+      <div class="field-label">Tutar (₺)</div>
+      <input type="number" id="f-amount" inputmode="decimal" placeholder="0.00" min="0" step="0.01" />
+    </div>
+
+    <button class="btn-save" onclick="saveEntry()">Kaydet</button>
+  </div>
+</div>
+
+<!-- DELETE CONFIRM -->
+<div class="confirm-overlay hidden" id="confirm-overlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">🗑️</div>
+    <div class="confirm-title">Bu kaydı silmek istediğinize emin misiniz?</div>
+    <div class="confirm-sub">Bu işlem geri alınamaz.</div>
+    <div class="confirm-buttons">
+      <button class="btn-cancel" onclick="closeConfirm()">İptal</button>
+      <button class="btn-confirm-del" onclick="confirmDelete()">Sil</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const STORAGE_KEY = 'kasa_defteri_v1';
+  let entries = [];
+  let activeTab = 'all';
+  let editId = null;
+  let deleteId = null;
+  let formType = 'giris';
+
+  // Load
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) entries = JSON.parse(saved);
+  } catch(e) {}
+
+  function save() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(entries)); } catch(e) {}
+  }
+
+  function fmt(n) {
+    return new Intl.NumberFormat('tr-TR', {minimumFractionDigits:2, maximumFractionDigits:2}).format(n) + ' ₺';
+  }
+
+  function fmtDate(d) {
+    const dt = new Date(d);
+    return dt.toLocaleDateString('tr-TR', {day:'2-digit',month:'2-digit',year:'numeric'});
+  }
+
+  function todayStr() {
+    return new Date().toISOString().split('T')[0];
+  }
+
+  function updateSummary() {
+    const totalG = entries.filter(e=>e.type==='giris').reduce((s,e)=>s+e.amount,0);
+    const totalC = entries.filter(e=>e.type==='cikis').reduce((s,e)=>s+e.amount,0);
+    const bak = totalG - totalC;
+
+    document.getElementById('total-giris').textContent = fmt(totalG);
+    document.getElementById('total-cikis').textContent = fmt(totalC);
+    const bakEl = document.getElementById('total-bakiye');
+    bakEl.textContent = fmt(bak);
+    bakEl.style.color = bak >= 0 ? '#d4a84b' : '#f87171';
+
+    const cardB = document.getElementById('card-bakiye');
+    cardB.style.background = bak >= 0 ? 'rgba(212,168,75,0.1)' : 'rgba(248,113,113,0.1)';
+    cardB.style.border = bak >= 0 ? '1px solid rgba(212,168,75,0.2)' : '1px solid rgba(248,113,113,0.2)';
+  }
+
+  function buildBalanceMap() {
+    const sorted = [...entries].sort((a,b)=>new Date(a.date)-new Date(b.date)||a.id-b.id);
+    const map = {};
+    let r = 0;
+    sorted.forEach(e => {
+      r += e.type==='giris' ? e.amount : -e.amount;
+      map[e.id] = r;
+    });
+    return map;
+  }
+
+  function render() {
+    updateSummary();
+    const bmap = buildBalanceMap();
+
+    const filtered = entries
+      .filter(e => activeTab==='all' ? true : e.type===activeTab)
+      .sort((a,b) => new Date(b.date)-new Date(a.date) || b.id-a.id);
+
+    const container = document.getElementById('entries-list');
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">📋</div>
+          <div class="empty-text">Henüz kayıt yok</div>
+          <div class="empty-sub">+ butonuna basarak kayıt ekleyin</div>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = filtered.map(e => {
+      const isG = e.type==='giris';
+      const bval = bmap[e.id] ?? 0;
+      const borderColor = isG ? 'rgba(74,222,128,0.15)' : 'rgba(248,113,113,0.15)';
+      const leftBorder = isG ? '#4ade80' : '#f87171';
+      const amtColor = isG ? '#4ade80' : '#f87171';
+      const sign = isG ? '+' : '−';
+      const cumColor = bval >= 0 ? '#d4a84b' : '#f87171';
+
+      return `
+        <div class="entry" style="border:1px solid ${borderColor};border-left:3px solid ${leftBorder}">
+          <div class="entry-left">
+            <div class="entry-meta">${fmtDate(e.date)} · ${isG ? '📥 Giriş' : '📤 Çıkış'}</div>
+            <div class="entry-desc">${escHtml(e.description)}</div>
+            <div class="entry-cumulative">Kümülatif: <span style="color:${cumColor}">${fmt(bval)}</span></div>
+          </div>
+          <div class="entry-right">
+            <div class="entry-amount" style="color:${amtColor}">${sign}${fmt(e.amount)}</div>
+            <div class="entry-actions">
+              <button class="btn-edit" onclick="openEdit(${e.id})">Düzenle</button>
+              <button class="btn-del" onclick="openConfirm(${e.id})">Sil</button>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function setTab(tab, el) {
+    activeTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+    render();
+  }
+
+  // FORM
+  function openForm() {
+    editId = null;
+    formType = 'giris';
+    document.getElementById('form-title').textContent = 'Yeni Kayıt';
+    document.getElementById('f-date').value = todayStr();
+    document.getElementById('f-desc').value = '';
+    document.getElementById('f-amount').value = '';
+    setType('giris');
+    document.getElementById('form-overlay').classList.remove('hidden');
+  }
+
+  function openEdit(id) {
+    const e = entries.find(x => x.id===id);
+    if (!e) return;
+    editId = id;
+    formType = e.type;
+    document.getElementById('form-title').textContent = 'Kaydı Düzenle';
+    document.getElementById('f-date').value = e.date;
+    document.getElementById('f-desc').value = e.description;
+    document.getElementById('f-amount').value = e.amount;
+    setType(e.type);
+    document.getElementById('form-overlay').classList.remove('hidden');
+  }
+
+  function closeForm() {
+    document.getElementById('form-overlay').classList.add('hidden');
+    editId = null;
+  }
+
+  function setType(type) {
+    formType = type;
+    const gBtn = document.getElementById('btn-giris');
+    const cBtn = document.getElementById('btn-cikis');
+    if (type==='giris') {
+      gBtn.style.cssText = 'background:rgba(74,222,128,0.15);border:1.5px solid #4ade80;color:#4ade80;border-radius:10px;font-family:inherit;font-size:14px;font-weight:bold;padding:10px;cursor:pointer;';
+      cBtn.style.cssText = 'background:#0f1117;border:1.5px solid #2a2f3e;color:#6b7280;border-radius:10px;font-family:inherit;font-size:14px;font-weight:bold;padding:10px;cursor:pointer;';
+    } else {
+      cBtn.style.cssText = 'background:rgba(248,113,113,0.15);border:1.5px solid #f87171;color:#f87171;border-radius:10px;font-family:inherit;font-size:14px;font-weight:bold;padding:10px;cursor:pointer;';
+      gBtn.style.cssText = 'background:#0f1117;border:1.5px solid #2a2f3e;color:#6b7280;border-radius:10px;font-family:inherit;font-size:14px;font-weight:bold;padding:10px;cursor:pointer;';
+    }
+  }
+
+  function saveEntry() {
+    const desc = document.getElementById('f-desc').value.trim();
+    const amount = parseFloat(document.getElementById('f-amount').value);
+    const date = document.getElementById('f-date').value;
+    if (!desc || !amount || amount <= 0 || !date) return;
+
+    if (editId) {
+      entries = entries.map(e => e.id===editId ? {...e, date, type:formType, description:desc, amount} : e);
+      editId = null;
+    } else {
+      entries.unshift({ id: Date.now(), date, type: formType, description: desc, amount });
+    }
+    save();
+    closeForm();
+    render();
+  }
+
+  // DELETE
+  function openConfirm(id) {
+    deleteId = id;
+    document.getElementById('confirm-overlay').classList.remove('hidden');
+  }
+
+  function closeConfirm() {
+    deleteId = null;
+    document.getElementById('confirm-overlay').classList.add('hidden');
+  }
+
+  function confirmDelete() {
+    entries = entries.filter(e => e.id!==deleteId);
+    save();
+    closeConfirm();
+    render();
+  }
+
+  // INIT
+  render();
+</script>
+</body>
+</html>
