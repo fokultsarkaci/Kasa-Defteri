@@ -250,6 +250,8 @@
     var total = 0;
     entries.forEach(function(e) {
       var p = e.date.split('-');
+      // Devir kayıtlarını hariç tut
+      if (e.description.indexOf('Devri') !== -1 && e.type === 'giris') return;
       if (parseInt(p[1])-1 === month && parseInt(p[0]) === year) {
         total += e.type === 'giris' ? e.amount : -e.amount;
       }
