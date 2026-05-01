@@ -216,7 +216,7 @@
 
 <script>
   // ============================================================
-  var PIN = 'BURAYA_PININIZI_YAZIN';
+  var PIN = '2453';
   var BIN_ID = '69e9aa6836566621a8e136aa';
   var API_KEY = '$2a$10$x.jgbQMtFTSvH/YGvJf5iO2vVLbEe3GVw.smFmgPSCb.FG3/ASSXi';
   var API_URL = 'https://api.jsonbin.io/v3/b/' + BIN_ID;
