@@ -10,43 +10,29 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { background: #0f1117; color: #e8e0d0; font-family: Georgia, serif; min-height: 100vh; max-width: 480px; margin: 0 auto; }
-
-    /* HEADER */
     .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2a2f3e; padding: 16px 16px 0; position: sticky; top: 0; z-index: 10; }
     .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .header-label { font-size: 10px; color: #6b7280; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2px; }
     .header-title { font-size: 20px; font-weight: bold; color: #f0e8d8; }
     .btn-add { background: linear-gradient(135deg, #d4a84b, #b8860b); border: none; border-radius: 12px; color: #0f1117; font-weight: bold; font-size: 24px; width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(212,168,75,0.3); flex-shrink: 0; }
-
-    /* AY SEÇİCİ */
     .month-selector { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; background: #1a1f2e; border-radius: 10px; padding: 8px 12px; border: 1px solid #2a2f3e; }
     .month-nav { background: none; border: none; color: #d4a84b; font-size: 20px; cursor: pointer; padding: 0 8px; }
     .month-label { font-size: 15px; font-weight: bold; color: #f0e8d8; }
-
-    /* ÖZET KARTLAR */
     .summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     .card { border-radius: 10px; padding: 10px 6px; text-align: center; }
     .card-label { font-size: 9px; color: #9ca3af; margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
     .card-value { font-size: 12px; font-weight: bold; }
-
-    /* TABS */
     .tabs { display: flex; border-bottom: 1px solid #2a2f3e; }
     .tab { flex: 1; background: none; border: none; border-bottom: 2px solid transparent; color: #6b7280; font-size: 13px; padding: 8px 0; cursor: pointer; font-family: inherit; transition: all 0.2s; }
     .tab.active { color: #d4a84b; border-bottom-color: #d4a84b; font-weight: bold; }
-
-    /* ENTRIES */
     .entries { padding: 12px 16px 100px; }
     .empty { text-align: center; padding: 60px 20px; color: #4b5563; }
     .empty-icon { font-size: 48px; margin-bottom: 12px; }
     .empty-text { font-size: 15px; }
     .empty-sub { font-size: 13px; margin-top: 6px; }
-
-    /* AY BAŞLIĞI */
     .month-header { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 8px; }
-    .month-header-title { font-size: 13px; font-weight: bold; color: #d4a84b; letter-spacing: 1px; text-transform: uppercase; }
+    .month-header-title { font-size: 13px; font-weight: bold; color: #d4a84b; letter-spacing: 1px; }
     .month-header-stats { font-size: 11px; color: #6b7280; }
-
-    /* KAYIT */
     .entry { background: #1a1f2e; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .entry-left { flex: 1; min-width: 0; }
     .entry-meta { font-size: 11px; color: #6b7280; margin-bottom: 3px; }
@@ -58,13 +44,9 @@
     .btn-edit, .btn-del { border-radius: 6px; font-size: 11px; padding: 4px 10px; cursor: pointer; font-family: inherit; }
     .btn-edit { background: rgba(212,168,75,0.1); border: 1px solid rgba(212,168,75,0.2); color: #d4a84b; }
     .btn-del { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: #f87171; }
-
-    /* SYNC BAR */
     .sync-bar { font-size: 11px; color: #6b7280; text-align: center; padding: 4px; }
     .sync-bar.ok { color: #4ade80; }
     .sync-bar.err { color: #f87171; }
-
-    /* MODALLER */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; align-items: flex-end; max-width: 480px; margin: 0 auto; }
     .sheet { background: #1a1f2e; border-top: 1px solid #2a2f3e; border-radius: 20px 20px 0 0; padding: 24px; width: 100%; }
     .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
@@ -73,14 +55,12 @@
     .type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
     .btn-type { border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: bold; padding: 10px; cursor: pointer; border: 1.5px solid #2a2f3e; background: #0f1117; color: #6b7280; }
     .btn-type.active-giris { background: rgba(74,222,128,0.15); border-color: #4ade80; color: #4ade80; }
-    .btn-type.active-cikis { background: rgba(248,113,113,0.15); border-color: #f87171; color: #f87171; }
+    .btn-type.active-cikis { background: rgba(248,113,128,0.15); border-color: #f87171; color: #f87171; }
     .field-label { font-size: 11px; color: #6b7280; margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
     .field-wrap { margin-bottom: 12px; }
-    input[type="date"], input[type="text"], input[type="number"], input[type="password"] { width: 100%; background: #0f1117; border: 1px solid #2a2f3e; border-radius: 10px; color: #e8e0d0; font-size: 15px; padding: 10px 14px; font-family: inherit; outline: none; -webkit-appearance: none; }
+    input[type="date"], input[type="text"], input[type="number"] { width: 100%; background: #0f1117; border: 1px solid #2a2f3e; border-radius: 10px; color: #e8e0d0; font-size: 15px; padding: 10px 14px; font-family: inherit; outline: none; -webkit-appearance: none; }
     input[type="number"] { font-size: 20px; font-weight: bold; }
     .btn-save { width: 100%; background: linear-gradient(135deg, #d4a84b, #b8860b); border: none; border-radius: 12px; color: #0f1117; font-size: 16px; font-weight: bold; padding: 14px; cursor: pointer; font-family: inherit; margin-top: 8px; box-shadow: 0 4px 16px rgba(212,168,75,0.3); }
-
-    /* SİLME ONAY */
     .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 0 24px; max-width: 480px; margin: 0 auto; }
     .confirm-box { background: #1a1f2e; border: 1px solid #2a2f3e; border-radius: 16px; padding: 24px; width: 100%; text-align: center; }
     .confirm-icon { font-size: 32px; margin-bottom: 12px; }
@@ -89,19 +69,6 @@
     .confirm-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .btn-cancel { background: #2a2f3e; border: none; border-radius: 10px; color: #e8e0d0; font-size: 14px; padding: 12px; cursor: pointer; font-family: inherit; }
     .btn-confirm-del { background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3); border-radius: 10px; color: #f87171; font-size: 14px; font-weight: bold; padding: 12px; cursor: pointer; font-family: inherit; }
-
-    /* PIN */
-    .pin-overlay { position: fixed; inset: 0; background: #0f1117; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 24px; max-width: 480px; margin: 0 auto; }
-    .pin-box { background: #1a1f2e; border: 1px solid #2a2f3e; border-radius: 20px; padding: 36px 28px; width: 100%; text-align: center; }
-    .pin-icon { font-size: 40px; margin-bottom: 16px; }
-    .pin-title { font-size: 20px; font-weight: bold; color: #f0e8d8; margin-bottom: 8px; }
-    .pin-sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
-    .pin-input { width: 100%; background: #0f1117; border: 1px solid #2a2f3e; border-radius: 12px; color: #e8e0d0; font-size: 28px; padding: 14px; text-align: center; font-family: inherit; outline: none; letter-spacing: 12px; margin-bottom: 16px; -webkit-appearance: none; }
-    .pin-input.error { border-color: #f87171; }
-    .pin-btn { width: 100%; background: linear-gradient(135deg, #d4a84b, #b8860b); border: none; border-radius: 12px; color: #0f1117; font-size: 16px; font-weight: bold; padding: 14px; cursor: pointer; font-family: inherit; }
-    .pin-error { font-size: 13px; color: #f87171; margin-top: 12px; min-height: 20px; }
-
-    /* LOADING */
     .loading-overlay { position: fixed; inset: 0; background: #0f1117; z-index: 500; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
     .loading-spinner { width: 40px; height: 40px; border: 3px solid #2a2f3e; border-top-color: #d4a84b; border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -111,20 +78,8 @@
 </head>
 <body>
 
-<!-- PIN -->
-<div class="pin-overlay" id="pin-overlay">
-  <div class="pin-box">
-    <div class="pin-icon">&#128220;</div>
-    <div class="pin-title">Kasa Defteri</div>
-    <div class="pin-sub">Devam etmek icin PIN giriniz</div>
-    <input class="pin-input" id="pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="••••" />
-    <button class="pin-btn" onclick="checkPin()">Giris</button>
-    <div class="pin-error" id="pin-error"></div>
-  </div>
-</div>
-
 <!-- LOADING -->
-<div class="loading-overlay hidden" id="loading-overlay">
+<div class="loading-overlay" id="loading-overlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">Veriler yukleniyor...</div>
 </div>
@@ -139,15 +94,11 @@
       </div>
       <button class="btn-add" onclick="openForm()">+</button>
     </div>
-
-    <!-- AY SEÇİCİ -->
     <div class="month-selector">
       <button class="month-nav" onclick="changeMonth(-1)">&#8249;</button>
-      <div class="month-label" id="month-label">Mayis 2026</div>
+      <div class="month-label" id="month-label"></div>
       <button class="month-nav" onclick="changeMonth(1)">&#8250;</button>
     </div>
-
-    <!-- ÖZET -->
     <div class="summary">
       <div class="card" style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.15)">
         <div class="card-label">Giris</div>
@@ -162,15 +113,13 @@
         <div class="card-value" id="total-bakiye" style="color:#d4a84b">0,00 TL</div>
       </div>
     </div>
-
     <div class="tabs">
       <button class="tab active" id="tab-all" onclick="setTab('all')">Tumu</button>
       <button class="tab" id="tab-giris" onclick="setTab('giris')">Giris</button>
       <button class="tab" id="tab-cikis" onclick="setTab('cikis')">Cikis</button>
     </div>
   </div>
-
-  <div class="sync-bar" id="sync-bar">&#9729; Bulut ile senkronize</div>
+  <div class="sync-bar" id="sync-bar">&#9729; Senkronize</div>
   <div class="entries" id="entries-list"></div>
 </div>
 
@@ -215,49 +164,22 @@
 </div>
 
 <script>
-  // ============================================================
-  var PIN = '2453';
   var BIN_ID = '69e9aa6836566621a8e136aa';
   var API_KEY = '$2a$10$x.jgbQMtFTSvH/YGvJf5iO2vVLbEe3GVw.smFmgPSCb.FG3/ASSXi';
   var API_URL = 'https://api.jsonbin.io/v3/b/' + BIN_ID;
-  // ============================================================
 
   var entries = [];
   var activeTab = 'all';
   var editId = null;
   var deleteId = null;
   var formType = 'giris';
-
   var now = new Date();
   var currentYear = now.getFullYear();
-  var currentMonth = now.getMonth(); // 0-11
-
+  var currentMonth = now.getMonth();
   var AYLAR = ['Ocak','Subat','Mart','Nisan','Mayis','Haziran','Temmuz','Agustos','Eylul','Ekim','Kasim','Aralik'];
-
-  // PIN
-  function checkPin() {
-    var input = document.getElementById('pin-input');
-    var errorEl = document.getElementById('pin-error');
-    if (input.value === PIN) {
-      sessionStorage.setItem('kasa_pin_ok', '1');
-      document.getElementById('pin-overlay').classList.add('hidden');
-      loadFromCloud();
-    } else {
-      input.classList.add('error');
-      input.value = '';
-      errorEl.textContent = 'Yanlis PIN! Tekrar deneyin.';
-      setTimeout(function() { input.classList.remove('error'); errorEl.textContent = ''; }, 2000);
-    }
-  }
-  document.getElementById('pin-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPin(); });
-  if (sessionStorage.getItem('kasa_pin_ok') === '1') {
-    document.getElementById('pin-overlay').classList.add('hidden');
-    loadFromCloud();
-  }
 
   // CLOUD
   function loadFromCloud() {
-    document.getElementById('loading-overlay').classList.remove('hidden');
     fetch(API_URL + '/latest', { headers: { 'X-Master-Key': API_KEY } })
       .then(function(r) { return r.json(); })
       .then(function(data) {
@@ -296,7 +218,6 @@
     bar.innerHTML = msg;
   }
 
-  // AY NAVİGASYON
   function changeMonth(dir) {
     currentMonth += dir;
     if (currentMonth > 11) { currentMonth = 0; currentYear++; }
@@ -304,11 +225,6 @@
     render();
   }
 
-  function updateMonthLabel() {
-    document.getElementById('month-label').textContent = AYLAR[currentMonth] + ' ' + currentYear;
-  }
-
-  // FORMAT
   function fmt(n) {
     var num = parseFloat(n) || 0;
     return num.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' TL';
@@ -324,32 +240,25 @@
     return d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2);
   }
 
-  function getEntryMonth(e) { return parseInt(e.date.split('-')[1]) - 1; }
-  function getEntryYear(e) { return parseInt(e.date.split('-')[0]); }
-
-  // RENDER
   function render() {
-    updateMonthLabel();
+    document.getElementById('month-label').textContent = AYLAR[currentMonth] + ' ' + currentYear;
 
-    // Seçili aya ait kayıtları filtrele
     var monthEntries = entries.filter(function(e) {
-      return getEntryMonth(e) === currentMonth && getEntryYear(e) === currentYear;
+      var parts = e.date.split('-');
+      return parseInt(parts[1])-1 === currentMonth && parseInt(parts[0]) === currentYear;
     });
 
-    // Tab filtresi
     var filtered = monthEntries.filter(function(e) {
       if (activeTab === 'all') return true;
       return e.type === activeTab;
     });
 
-    // Tarihe göre sırala (yeni → eski)
     filtered.sort(function(a, b) {
       if (a.date > b.date) return -1;
       if (a.date < b.date) return 1;
       return b.id - a.id;
     });
 
-    // Özet (seçili ay)
     var totalG = 0, totalC = 0;
     monthEntries.forEach(function(e) {
       if (e.type === 'giris') totalG += e.amount;
@@ -366,7 +275,6 @@
     cardB.style.background = bak >= 0 ? 'rgba(212,168,75,0.1)' : 'rgba(248,113,113,0.1)';
     cardB.style.border = bak >= 0 ? '1px solid rgba(212,168,75,0.2)' : '1px solid rgba(248,113,113,0.2)';
 
-    // Kümülatif (tüm kayıtlar, tarih sıralı)
     var allSorted = entries.slice().sort(function(a, b) {
       if (a.date < b.date) return -1;
       if (a.date > b.date) return 1;
@@ -386,13 +294,11 @@
       return;
     }
 
-    // Günlere göre grupla
     var groups = {};
     var groupOrder = [];
     filtered.forEach(function(e) {
-      var d = e.date;
-      if (!groups[d]) { groups[d] = []; groupOrder.push(d); }
-      groups[d].push(e);
+      if (!groups[e.date]) { groups[e.date] = []; groupOrder.push(e.date); }
+      groups[e.date].push(e);
     });
     groupOrder.sort(function(a, b) { return a > b ? -1 : 1; });
 
@@ -404,8 +310,6 @@
         if (e.type === 'giris') dayG += e.amount;
         else dayC += e.amount;
       });
-
-      // Gün başlığı
       html += '<div class="month-header">';
       html += '<div class="month-header-title">' + fmtDate(date) + '</div>';
       html += '<div class="month-header-stats">';
@@ -422,7 +326,6 @@
         var sign = isG ? '+' : '-';
         var cumColor = bval >= 0 ? '#d4a84b' : '#f87171';
         var typeLabel = isG ? 'Giris' : 'Cikis';
-
         html += '<div class="entry" style="border:1px solid ' + borderColor + ';border-left:3px solid ' + leftBorder + '">';
         html += '<div class="entry-left">';
         html += '<div class="entry-meta">' + typeLabel + '</div>';
@@ -499,7 +402,6 @@
     var date = document.getElementById('f-date').value;
     if (!desc || !amount || amount <= 0 || !date) { alert('Lutfen tum alanlari doldurun.'); return; }
 
-    // Kaydedilen tarihin ayına git
     var entryMonth = parseInt(date.split('-')[1]) - 1;
     var entryYear = parseInt(date.split('-')[0]);
 
@@ -516,7 +418,6 @@
       entries.unshift({ id: Date.now(), date: date, type: formType, description: desc, amount: amount });
     }
 
-    // Kaydın ayına geç
     currentMonth = entryMonth;
     currentYear = entryYear;
 
@@ -524,7 +425,6 @@
     render();
     saveToCloud();
 
-    // Listeye scroll
     setTimeout(function() {
       document.getElementById('entries-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 100);
@@ -546,6 +446,9 @@
     render();
     saveToCloud();
   }
+
+  // BAŞLAT
+  loadFromCloud();
 </script>
 </body>
 </html>
