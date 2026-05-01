@@ -10,41 +10,68 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body { background: #0f1117; color: #e8e0d0; font-family: Georgia, serif; min-height: 100vh; max-width: 480px; margin: 0 auto; }
-    .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2a2f3e; padding: 20px 16px 0; position: sticky; top: 0; z-index: 10; }
-    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-    .header-label { font-size: 11px; color: #6b7280; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2px; }
-    .header-title { font-size: 22px; font-weight: bold; color: #f0e8d8; }
+
+    /* HEADER */
+    .header { background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%); border-bottom: 1px solid #2a2f3e; padding: 16px 16px 0; position: sticky; top: 0; z-index: 10; }
+    .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .header-label { font-size: 10px; color: #6b7280; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 2px; }
+    .header-title { font-size: 20px; font-weight: bold; color: #f0e8d8; }
     .btn-add { background: linear-gradient(135deg, #d4a84b, #b8860b); border: none; border-radius: 12px; color: #0f1117; font-weight: bold; font-size: 24px; width: 44px; height: 44px; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(212,168,75,0.3); flex-shrink: 0; }
-    .summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+
+    /* AY SEÇİCİ */
+    .month-selector { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; background: #1a1f2e; border-radius: 10px; padding: 8px 12px; border: 1px solid #2a2f3e; }
+    .month-nav { background: none; border: none; color: #d4a84b; font-size: 20px; cursor: pointer; padding: 0 8px; }
+    .month-label { font-size: 15px; font-weight: bold; color: #f0e8d8; }
+
+    /* ÖZET KARTLAR */
+    .summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
     .card { border-radius: 10px; padding: 10px 6px; text-align: center; }
     .card-label { font-size: 9px; color: #9ca3af; margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
-    .card-value { font-size: 13px; font-weight: bold; }
+    .card-value { font-size: 12px; font-weight: bold; }
+
+    /* TABS */
     .tabs { display: flex; border-bottom: 1px solid #2a2f3e; }
     .tab { flex: 1; background: none; border: none; border-bottom: 2px solid transparent; color: #6b7280; font-size: 13px; padding: 8px 0; cursor: pointer; font-family: inherit; transition: all 0.2s; }
     .tab.active { color: #d4a84b; border-bottom-color: #d4a84b; font-weight: bold; }
+
+    /* ENTRIES */
     .entries { padding: 12px 16px 100px; }
     .empty { text-align: center; padding: 60px 20px; color: #4b5563; }
     .empty-icon { font-size: 48px; margin-bottom: 12px; }
     .empty-text { font-size: 15px; }
     .empty-sub { font-size: 13px; margin-top: 6px; }
+
+    /* AY BAŞLIĞI */
+    .month-header { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 8px; }
+    .month-header-title { font-size: 13px; font-weight: bold; color: #d4a84b; letter-spacing: 1px; text-transform: uppercase; }
+    .month-header-stats { font-size: 11px; color: #6b7280; }
+
+    /* KAYIT */
     .entry { background: #1a1f2e; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .entry-left { flex: 1; min-width: 0; }
     .entry-meta { font-size: 11px; color: #6b7280; margin-bottom: 3px; }
     .entry-desc { font-size: 14px; color: #e8e0d0; margin-bottom: 4px; word-break: break-word; }
     .entry-cumulative { font-size: 10px; color: #4b5563; }
     .entry-right { text-align: right; flex-shrink: 0; }
-    .entry-amount { font-size: 16px; font-weight: bold; margin-bottom: 8px; white-space: nowrap; }
+    .entry-amount { font-size: 15px; font-weight: bold; margin-bottom: 8px; white-space: nowrap; }
     .entry-actions { display: flex; gap: 6px; justify-content: flex-end; }
     .btn-edit, .btn-del { border-radius: 6px; font-size: 11px; padding: 4px 10px; cursor: pointer; font-family: inherit; }
     .btn-edit { background: rgba(212,168,75,0.1); border: 1px solid rgba(212,168,75,0.2); color: #d4a84b; }
     .btn-del { background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); color: #f87171; }
+
+    /* SYNC BAR */
+    .sync-bar { font-size: 11px; color: #6b7280; text-align: center; padding: 4px; }
+    .sync-bar.ok { color: #4ade80; }
+    .sync-bar.err { color: #f87171; }
+
+    /* MODALLER */
     .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 100; display: flex; align-items: flex-end; max-width: 480px; margin: 0 auto; }
     .sheet { background: #1a1f2e; border-top: 1px solid #2a2f3e; border-radius: 20px 20px 0 0; padding: 24px; width: 100%; }
     .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
     .sheet-title { font-size: 17px; font-weight: bold; color: #f0e8d8; }
     .btn-close { background: #2a2f3e; border: none; border-radius: 8px; color: #9ca3af; font-size: 20px; width: 32px; height: 32px; cursor: pointer; }
     .type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
-    .btn-type { border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: bold; padding: 10px; cursor: pointer; transition: all 0.2s; border: 1.5px solid #2a2f3e; background: #0f1117; color: #6b7280; }
+    .btn-type { border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: bold; padding: 10px; cursor: pointer; border: 1.5px solid #2a2f3e; background: #0f1117; color: #6b7280; }
     .btn-type.active-giris { background: rgba(74,222,128,0.15); border-color: #4ade80; color: #4ade80; }
     .btn-type.active-cikis { background: rgba(248,113,113,0.15); border-color: #f87171; color: #f87171; }
     .field-label { font-size: 11px; color: #6b7280; margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
@@ -52,6 +79,8 @@
     input[type="date"], input[type="text"], input[type="number"], input[type="password"] { width: 100%; background: #0f1117; border: 1px solid #2a2f3e; border-radius: 10px; color: #e8e0d0; font-size: 15px; padding: 10px 14px; font-family: inherit; outline: none; -webkit-appearance: none; }
     input[type="number"] { font-size: 20px; font-weight: bold; }
     .btn-save { width: 100%; background: linear-gradient(135deg, #d4a84b, #b8860b); border: none; border-radius: 12px; color: #0f1117; font-size: 16px; font-weight: bold; padding: 14px; cursor: pointer; font-family: inherit; margin-top: 8px; box-shadow: 0 4px 16px rgba(212,168,75,0.3); }
+
+    /* SİLME ONAY */
     .confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: flex; align-items: center; justify-content: center; padding: 0 24px; max-width: 480px; margin: 0 auto; }
     .confirm-box { background: #1a1f2e; border: 1px solid #2a2f3e; border-radius: 16px; padding: 24px; width: 100%; text-align: center; }
     .confirm-icon { font-size: 32px; margin-bottom: 12px; }
@@ -60,7 +89,8 @@
     .confirm-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .btn-cancel { background: #2a2f3e; border: none; border-radius: 10px; color: #e8e0d0; font-size: 14px; padding: 12px; cursor: pointer; font-family: inherit; }
     .btn-confirm-del { background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3); border-radius: 10px; color: #f87171; font-size: 14px; font-weight: bold; padding: 12px; cursor: pointer; font-family: inherit; }
-    .hidden { display: none !important; }
+
+    /* PIN */
     .pin-overlay { position: fixed; inset: 0; background: #0f1117; z-index: 999; display: flex; align-items: center; justify-content: center; padding: 24px; max-width: 480px; margin: 0 auto; }
     .pin-box { background: #1a1f2e; border: 1px solid #2a2f3e; border-radius: 20px; padding: 36px 28px; width: 100%; text-align: center; }
     .pin-icon { font-size: 40px; margin-bottom: 16px; }
@@ -68,20 +98,20 @@
     .pin-sub { font-size: 13px; color: #6b7280; margin-bottom: 24px; }
     .pin-input { width: 100%; background: #0f1117; border: 1px solid #2a2f3e; border-radius: 12px; color: #e8e0d0; font-size: 28px; padding: 14px; text-align: center; font-family: inherit; outline: none; letter-spacing: 12px; margin-bottom: 16px; -webkit-appearance: none; }
     .pin-input.error { border-color: #f87171; }
-    .pin-btn { width: 100%; background: linear-gradient(135deg, #d4a84b, #b8860b); border: none; border-radius: 12px; color: #0f1117; font-size: 16px; font-weight: bold; padding: 14px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 16px rgba(212,168,75,0.3); }
+    .pin-btn { width: 100%; background: linear-gradient(135deg, #d4a84b, #b8860b); border: none; border-radius: 12px; color: #0f1117; font-size: 16px; font-weight: bold; padding: 14px; cursor: pointer; font-family: inherit; }
     .pin-error { font-size: 13px; color: #f87171; margin-top: 12px; min-height: 20px; }
-    .sync-bar { font-size: 11px; color: #6b7280; text-align: center; padding: 6px; }
-    .sync-bar.ok { color: #4ade80; }
-    .sync-bar.err { color: #f87171; }
+
+    /* LOADING */
     .loading-overlay { position: fixed; inset: 0; background: #0f1117; z-index: 500; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
     .loading-spinner { width: 40px; height: 40px; border: 3px solid #2a2f3e; border-top-color: #d4a84b; border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { font-size: 14px; color: #6b7280; }
+    .hidden { display: none !important; }
   </style>
 </head>
 <body>
 
-<!-- PIN EKRANI -->
+<!-- PIN -->
 <div class="pin-overlay" id="pin-overlay">
   <div class="pin-box">
     <div class="pin-icon">&#128220;</div>
@@ -93,7 +123,7 @@
   </div>
 </div>
 
-<!-- YÜKLEME EKRANI -->
+<!-- LOADING -->
 <div class="loading-overlay hidden" id="loading-overlay">
   <div class="loading-spinner"></div>
   <div class="loading-text">Veriler yukleniyor...</div>
@@ -109,13 +139,22 @@
       </div>
       <button class="btn-add" onclick="openForm()">+</button>
     </div>
+
+    <!-- AY SEÇİCİ -->
+    <div class="month-selector">
+      <button class="month-nav" onclick="changeMonth(-1)">&#8249;</button>
+      <div class="month-label" id="month-label">Mayis 2026</div>
+      <button class="month-nav" onclick="changeMonth(1)">&#8250;</button>
+    </div>
+
+    <!-- ÖZET -->
     <div class="summary">
       <div class="card" style="background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.15)">
-        <div class="card-label">Toplam Giris</div>
+        <div class="card-label">Giris</div>
         <div class="card-value" style="color:#4ade80" id="total-giris">0,00 TL</div>
       </div>
       <div class="card" style="background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.15)">
-        <div class="card-label">Toplam Cikis</div>
+        <div class="card-label">Cikis</div>
         <div class="card-value" style="color:#f87171" id="total-cikis">0,00 TL</div>
       </div>
       <div class="card" id="card-bakiye" style="background:rgba(212,168,75,0.1);border:1px solid rgba(212,168,75,0.2)">
@@ -123,17 +162,19 @@
         <div class="card-value" id="total-bakiye" style="color:#d4a84b">0,00 TL</div>
       </div>
     </div>
+
     <div class="tabs">
       <button class="tab active" id="tab-all" onclick="setTab('all')">Tumu</button>
       <button class="tab" id="tab-giris" onclick="setTab('giris')">Giris</button>
       <button class="tab" id="tab-cikis" onclick="setTab('cikis')">Cikis</button>
     </div>
   </div>
+
   <div class="sync-bar" id="sync-bar">&#9729; Bulut ile senkronize</div>
   <div class="entries" id="entries-list"></div>
 </div>
 
-<!-- KAYIT FORMU -->
+<!-- FORM -->
 <div class="overlay hidden" id="form-overlay">
   <div class="sheet">
     <div class="sheet-header">
@@ -175,8 +216,7 @@
 
 <script>
   // ============================================================
-  // AYARLAR - PIN'İNİZİ BURAYA YAZIN
-  var PIN = '2453';
+  var PIN = 'BURAYA_PININIZI_YAZIN';
   var BIN_ID = '69e9aa6836566621a8e136aa';
   var API_KEY = '$2a$10$x.jgbQMtFTSvH/YGvJf5iO2vVLbEe3GVw.smFmgPSCb.FG3/ASSXi';
   var API_URL = 'https://api.jsonbin.io/v3/b/' + BIN_ID;
@@ -188,7 +228,13 @@
   var deleteId = null;
   var formType = 'giris';
 
-  // PIN KONTROL
+  var now = new Date();
+  var currentYear = now.getFullYear();
+  var currentMonth = now.getMonth(); // 0-11
+
+  var AYLAR = ['Ocak','Subat','Mart','Nisan','Mayis','Haziran','Temmuz','Agustos','Eylul','Ekim','Kasim','Aralik'];
+
+  // PIN
   function checkPin() {
     var input = document.getElementById('pin-input');
     var errorEl = document.getElementById('pin-error');
@@ -200,69 +246,48 @@
       input.classList.add('error');
       input.value = '';
       errorEl.textContent = 'Yanlis PIN! Tekrar deneyin.';
-      setTimeout(function() {
-        input.classList.remove('error');
-        errorEl.textContent = '';
-      }, 2000);
+      setTimeout(function() { input.classList.remove('error'); errorEl.textContent = ''; }, 2000);
     }
   }
-
-  document.getElementById('pin-input').addEventListener('keydown', function(e) {
-    if (e.key === 'Enter') checkPin();
-  });
-
+  document.getElementById('pin-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') checkPin(); });
   if (sessionStorage.getItem('kasa_pin_ok') === '1') {
     document.getElementById('pin-overlay').classList.add('hidden');
     loadFromCloud();
   }
 
-  // BULUT - VERİ YÜKLE
+  // CLOUD
   function loadFromCloud() {
     document.getElementById('loading-overlay').classList.remove('hidden');
-    fetch(API_URL + '/latest', {
-      headers: { 'X-Master-Key': API_KEY }
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(data) {
-      if (data && data.record && data.record.entries) {
-        entries = data.record.entries;
-      } else {
-        entries = [];
-      }
-      document.getElementById('loading-overlay').classList.add('hidden');
-      document.getElementById('app').classList.remove('hidden');
-      setSyncBar('ok', '&#9729; Bulut ile senkronize');
-      render();
-    })
-    .catch(function() {
-      document.getElementById('loading-overlay').classList.add('hidden');
-      document.getElementById('app').classList.remove('hidden');
-      setSyncBar('err', '&#9888; Baglanti hatasi - yerel mod');
-      var saved = localStorage.getItem('kasa_backup');
-      if (saved) entries = JSON.parse(saved);
-      render();
-    });
+    fetch(API_URL + '/latest', { headers: { 'X-Master-Key': API_KEY } })
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data && data.record && data.record.entries) entries = data.record.entries;
+        else entries = [];
+        document.getElementById('loading-overlay').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        setSyncBar('ok', '&#9729; Senkronize');
+        render();
+      })
+      .catch(function() {
+        document.getElementById('loading-overlay').classList.add('hidden');
+        document.getElementById('app').classList.remove('hidden');
+        setSyncBar('err', '&#9888; Baglanti hatasi');
+        var saved = localStorage.getItem('kasa_backup');
+        if (saved) entries = JSON.parse(saved);
+        render();
+      });
   }
 
-  // BULUT - VERİ KAYDET
   function saveToCloud() {
     setSyncBar('', '&#8987; Kaydediliyor...');
     localStorage.setItem('kasa_backup', JSON.stringify(entries));
     fetch(API_URL, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': API_KEY
-      },
+      headers: { 'Content-Type': 'application/json', 'X-Master-Key': API_KEY },
       body: JSON.stringify({ entries: entries })
     })
-    .then(function(r) { return r.json(); })
-    .then(function() {
-      setSyncBar('ok', '&#9729; Kaydedildi');
-    })
-    .catch(function() {
-      setSyncBar('err', '&#9888; Kaydetme hatasi!');
-    });
+    .then(function() { setSyncBar('ok', '&#9729; Kaydedildi'); })
+    .catch(function() { setSyncBar('err', '&#9888; Kaydetme hatasi!'); });
   }
 
   function setSyncBar(cls, msg) {
@@ -271,30 +296,67 @@
     bar.innerHTML = msg;
   }
 
+  // AY NAVİGASYON
+  function changeMonth(dir) {
+    currentMonth += dir;
+    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+    render();
+  }
+
+  function updateMonthLabel() {
+    document.getElementById('month-label').textContent = AYLAR[currentMonth] + ' ' + currentYear;
+  }
+
+  // FORMAT
   function fmt(n) {
     var num = parseFloat(n) || 0;
     return num.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' TL';
   }
 
   function fmtDate(d) {
-    var parts = d.split('-');
-    return parts[2] + '.' + parts[1] + '.' + parts[0];
+    var p = d.split('-');
+    return p[2] + '.' + p[1] + '.' + p[0];
   }
 
   function todayStr() {
     var d = new Date();
-    var month = ('0' + (d.getMonth() + 1)).slice(-2);
-    var day = ('0' + d.getDate()).slice(-2);
-    return d.getFullYear() + '-' + month + '-' + day;
+    return d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2);
   }
 
-  function updateSummary() {
+  function getEntryMonth(e) { return parseInt(e.date.split('-')[1]) - 1; }
+  function getEntryYear(e) { return parseInt(e.date.split('-')[0]); }
+
+  // RENDER
+  function render() {
+    updateMonthLabel();
+
+    // Seçili aya ait kayıtları filtrele
+    var monthEntries = entries.filter(function(e) {
+      return getEntryMonth(e) === currentMonth && getEntryYear(e) === currentYear;
+    });
+
+    // Tab filtresi
+    var filtered = monthEntries.filter(function(e) {
+      if (activeTab === 'all') return true;
+      return e.type === activeTab;
+    });
+
+    // Tarihe göre sırala (yeni → eski)
+    filtered.sort(function(a, b) {
+      if (a.date > b.date) return -1;
+      if (a.date < b.date) return 1;
+      return b.id - a.id;
+    });
+
+    // Özet (seçili ay)
     var totalG = 0, totalC = 0;
-    for (var i = 0; i < entries.length; i++) {
-      if (entries[i].type === 'giris') totalG += entries[i].amount;
-      else totalC += entries[i].amount;
-    }
+    monthEntries.forEach(function(e) {
+      if (e.type === 'giris') totalG += e.amount;
+      else totalC += e.amount;
+    });
     var bak = totalG - totalC;
+
     document.getElementById('total-giris').textContent = fmt(totalG);
     document.getElementById('total-cikis').textContent = fmt(totalC);
     var bakEl = document.getElementById('total-bakiye');
@@ -303,75 +365,90 @@
     var cardB = document.getElementById('card-bakiye');
     cardB.style.background = bak >= 0 ? 'rgba(212,168,75,0.1)' : 'rgba(248,113,113,0.1)';
     cardB.style.border = bak >= 0 ? '1px solid rgba(212,168,75,0.2)' : '1px solid rgba(248,113,113,0.2)';
-  }
 
-  function buildBalanceMap() {
-    var sorted = entries.slice().sort(function(a, b) {
+    // Kümülatif (tüm kayıtlar, tarih sıralı)
+    var allSorted = entries.slice().sort(function(a, b) {
       if (a.date < b.date) return -1;
       if (a.date > b.date) return 1;
       return a.id - b.id;
     });
-    var map = {};
+    var bmap = {};
     var r = 0;
-    for (var i = 0; i < sorted.length; i++) {
-      r += sorted[i].type === 'giris' ? sorted[i].amount : -sorted[i].amount;
-      map[sorted[i].id] = r;
+    allSorted.forEach(function(e) {
+      r += e.type === 'giris' ? e.amount : -e.amount;
+      bmap[e.id] = r;
+    });
+
+    var container = document.getElementById('entries-list');
+
+    if (filtered.length === 0) {
+      container.innerHTML = '<div class="empty"><div class="empty-icon">&#128203;</div><div class="empty-text">' + AYLAR[currentMonth] + ' ' + currentYear + ' icin kayit yok</div><div class="empty-sub">+ butonuna basarak kayit ekleyin</div></div>';
+      return;
     }
-    return map;
+
+    // Günlere göre grupla
+    var groups = {};
+    var groupOrder = [];
+    filtered.forEach(function(e) {
+      var d = e.date;
+      if (!groups[d]) { groups[d] = []; groupOrder.push(d); }
+      groups[d].push(e);
+    });
+    groupOrder.sort(function(a, b) { return a > b ? -1 : 1; });
+
+    var html = '';
+    groupOrder.forEach(function(date) {
+      var dayEntries = groups[date];
+      var dayG = 0, dayC = 0;
+      dayEntries.forEach(function(e) {
+        if (e.type === 'giris') dayG += e.amount;
+        else dayC += e.amount;
+      });
+
+      // Gün başlığı
+      html += '<div class="month-header">';
+      html += '<div class="month-header-title">' + fmtDate(date) + '</div>';
+      html += '<div class="month-header-stats">';
+      if (dayG > 0) html += '<span style="color:#4ade80">+' + fmt(dayG) + '</span> ';
+      if (dayC > 0) html += '<span style="color:#f87171">-' + fmt(dayC) + '</span>';
+      html += '</div></div>';
+
+      dayEntries.forEach(function(e) {
+        var isG = e.type === 'giris';
+        var bval = bmap[e.id] || 0;
+        var borderColor = isG ? 'rgba(74,222,128,0.15)' : 'rgba(248,113,113,0.15)';
+        var leftBorder = isG ? '#4ade80' : '#f87171';
+        var amtColor = isG ? '#4ade80' : '#f87171';
+        var sign = isG ? '+' : '-';
+        var cumColor = bval >= 0 ? '#d4a84b' : '#f87171';
+        var typeLabel = isG ? 'Giris' : 'Cikis';
+
+        html += '<div class="entry" style="border:1px solid ' + borderColor + ';border-left:3px solid ' + leftBorder + '">';
+        html += '<div class="entry-left">';
+        html += '<div class="entry-meta">' + typeLabel + '</div>';
+        html += '<div class="entry-desc">' + escHtml(e.description) + '</div>';
+        html += '<div class="entry-cumulative">Kumulatif: <span style="color:' + cumColor + '">' + fmt(bval) + '</span></div>';
+        html += '</div><div class="entry-right">';
+        html += '<div class="entry-amount" style="color:' + amtColor + '">' + sign + fmt(e.amount) + '</div>';
+        html += '<div class="entry-actions">';
+        html += '<button class="btn-edit" onclick="openEdit(' + e.id + ')">Duzenle</button>';
+        html += '<button class="btn-del" onclick="openConfirm(' + e.id + ')">Sil</button>';
+        html += '</div></div></div>';
+      });
+    });
+
+    container.innerHTML = html;
   }
 
   function escHtml(s) {
     return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
-  function render() {
-    updateSummary();
-    var bmap = buildBalanceMap();
-    var filtered = entries.filter(function(e) {
-      if (activeTab === 'all') return true;
-      return e.type === activeTab;
-    });
-    filtered.sort(function(a, b) {
-      if (a.date > b.date) return -1;
-      if (a.date < b.date) return 1;
-      return b.id - a.id;
-    });
-    var container = document.getElementById('entries-list');
-    if (filtered.length === 0) {
-      container.innerHTML = '<div class="empty"><div class="empty-icon">&#128203;</div><div class="empty-text">Henuz kayit yok</div><div class="empty-sub">+ butonuna basarak kayit ekleyin</div></div>';
-      return;
-    }
-    var html = '';
-    for (var i = 0; i < filtered.length; i++) {
-      var e = filtered[i];
-      var isG = e.type === 'giris';
-      var bval = bmap[e.id] || 0;
-      var borderColor = isG ? 'rgba(74,222,128,0.15)' : 'rgba(248,113,113,0.15)';
-      var leftBorder = isG ? '#4ade80' : '#f87171';
-      var amtColor = isG ? '#4ade80' : '#f87171';
-      var sign = isG ? '+' : '-';
-      var cumColor = bval >= 0 ? '#d4a84b' : '#f87171';
-      var typeLabel = isG ? 'Giris' : 'Cikis';
-      html += '<div class="entry" style="border:1px solid ' + borderColor + ';border-left:3px solid ' + leftBorder + '">';
-      html += '<div class="entry-left">';
-      html += '<div class="entry-meta">' + fmtDate(e.date) + ' &middot; ' + typeLabel + '</div>';
-      html += '<div class="entry-desc">' + escHtml(e.description) + '</div>';
-      html += '<div class="entry-cumulative">Kumulatif: <span style="color:' + cumColor + '">' + fmt(bval) + '</span></div>';
-      html += '</div><div class="entry-right">';
-      html += '<div class="entry-amount" style="color:' + amtColor + '">' + sign + fmt(e.amount) + '</div>';
-      html += '<div class="entry-actions">';
-      html += '<button class="btn-edit" onclick="openEdit(' + e.id + ')">Duzenle</button>';
-      html += '<button class="btn-del" onclick="openConfirm(' + e.id + ')">Sil</button>';
-      html += '</div></div></div>';
-    }
-    container.innerHTML = html;
-  }
-
   function setTab(tab) {
     activeTab = tab;
-    document.getElementById('tab-all').classList.remove('active');
-    document.getElementById('tab-giris').classList.remove('active');
-    document.getElementById('tab-cikis').classList.remove('active');
+    ['all','giris','cikis'].forEach(function(t) {
+      document.getElementById('tab-' + t).classList.remove('active');
+    });
     document.getElementById('tab-' + tab).classList.add('active');
     render();
   }
@@ -420,17 +497,17 @@
     var desc = document.getElementById('f-desc').value.trim();
     var amount = parseFloat(document.getElementById('f-amount').value);
     var date = document.getElementById('f-date').value;
-    if (!desc || !amount || amount <= 0 || !date) {
-      alert('Lutfen tum alanlari doldurun.');
-      return;
-    }
+    if (!desc || !amount || amount <= 0 || !date) { alert('Lutfen tum alanlari doldurun.'); return; }
+
+    // Kaydedilen tarihin ayına git
+    var entryMonth = parseInt(date.split('-')[1]) - 1;
+    var entryYear = parseInt(date.split('-')[0]);
+
     if (editId) {
       for (var i = 0; i < entries.length; i++) {
         if (entries[i].id === editId) {
-          entries[i].date = date;
-          entries[i].type = formType;
-          entries[i].description = desc;
-          entries[i].amount = amount;
+          entries[i].date = date; entries[i].type = formType;
+          entries[i].description = desc; entries[i].amount = amount;
           break;
         }
       }
@@ -438,9 +515,19 @@
     } else {
       entries.unshift({ id: Date.now(), date: date, type: formType, description: desc, amount: amount });
     }
+
+    // Kaydın ayına geç
+    currentMonth = entryMonth;
+    currentYear = entryYear;
+
     closeForm();
     render();
     saveToCloud();
+
+    // Listeye scroll
+    setTimeout(function() {
+      document.getElementById('entries-list').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   }
 
   function openConfirm(id) {
