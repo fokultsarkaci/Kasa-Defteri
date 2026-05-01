@@ -18,10 +18,12 @@
     .month-selector { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; background: #1a1f2e; border-radius: 10px; padding: 8px 12px; border: 1px solid #2a2f3e; }
     .month-nav { background: none; border: none; color: #d4a84b; font-size: 20px; cursor: pointer; padding: 0 8px; }
     .month-label { font-size: 15px; font-weight: bold; color: #f0e8d8; }
-    .summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+    .summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 8px; }
     .card { border-radius: 10px; padding: 10px 6px; text-align: center; }
     .card-label { font-size: 9px; color: #9ca3af; margin-bottom: 4px; letter-spacing: 1px; text-transform: uppercase; }
     .card-value { font-size: 12px; font-weight: bold; }
+    .btn-close-month { width: 100%; background: none; border: 1px dashed #4b5563; border-radius: 10px; color: #6b7280; font-size: 12px; padding: 8px; cursor: pointer; font-family: inherit; margin-bottom: 10px; transition: all 0.2s; }
+    .btn-close-month:hover { border-color: #d4a84b; color: #d4a84b; }
     .tabs { display: flex; border-bottom: 1px solid #2a2f3e; }
     .tab { flex: 1; background: none; border: none; border-bottom: 2px solid transparent; color: #6b7280; font-size: 13px; padding: 8px 0; cursor: pointer; font-family: inherit; transition: all 0.2s; }
     .tab.active { color: #d4a84b; border-bottom-color: #d4a84b; font-weight: bold; }
@@ -31,7 +33,7 @@
     .empty-text { font-size: 15px; }
     .empty-sub { font-size: 13px; margin-top: 6px; }
     .month-header { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 8px; }
-    .month-header-title { font-size: 13px; font-weight: bold; color: #d4a84b; letter-spacing: 1px; }
+    .month-header-title { font-size: 13px; font-weight: bold; color: #d4a84b; }
     .month-header-stats { font-size: 11px; color: #6b7280; }
     .entry { background: #1a1f2e; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
     .entry-left { flex: 1; min-width: 0; }
@@ -55,7 +57,7 @@
     .type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
     .btn-type { border-radius: 10px; font-family: inherit; font-size: 14px; font-weight: bold; padding: 10px; cursor: pointer; border: 1.5px solid #2a2f3e; background: #0f1117; color: #6b7280; }
     .btn-type.active-giris { background: rgba(74,222,128,0.15); border-color: #4ade80; color: #4ade80; }
-    .btn-type.active-cikis { background: rgba(248,113,128,0.15); border-color: #f87171; color: #f87171; }
+    .btn-type.active-cikis { background: rgba(248,113,113,0.15); border-color: #f87171; color: #f87171; }
     .field-label { font-size: 11px; color: #6b7280; margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
     .field-wrap { margin-bottom: 12px; }
     input[type="date"], input[type="text"], input[type="number"] { width: 100%; background: #0f1117; border: 1px solid #2a2f3e; border-radius: 10px; color: #e8e0d0; font-size: 15px; padding: 10px 14px; font-family: inherit; outline: none; -webkit-appearance: none; }
@@ -68,6 +70,7 @@
     .confirm-sub { font-size: 13px; color: #6b7280; margin-bottom: 20px; }
     .confirm-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
     .btn-cancel { background: #2a2f3e; border: none; border-radius: 10px; color: #e8e0d0; font-size: 14px; padding: 12px; cursor: pointer; font-family: inherit; }
+    .btn-confirm-ok { background: rgba(212,168,75,0.15); border: 1px solid rgba(212,168,75,0.3); border-radius: 10px; color: #d4a84b; font-size: 14px; font-weight: bold; padding: 12px; cursor: pointer; font-family: inherit; }
     .btn-confirm-del { background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3); border-radius: 10px; color: #f87171; font-size: 14px; font-weight: bold; padding: 12px; cursor: pointer; font-family: inherit; }
     .loading-overlay { position: fixed; inset: 0; background: #0f1117; z-index: 500; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; }
     .loading-spinner { width: 40px; height: 40px; border: 3px solid #2a2f3e; border-top-color: #d4a84b; border-radius: 50%; animation: spin 0.8s linear infinite; }
@@ -113,6 +116,9 @@
         <div class="card-value" id="total-bakiye" style="color:#d4a84b">0,00 TL</div>
       </div>
     </div>
+    <button class="btn-close-month" id="btn-devir" onclick="openDevirConfirm()">
+      &#8594; Ayi Kapat ve Sonraki Aya Devret
+    </button>
     <div class="tabs">
       <button class="tab active" id="tab-all" onclick="setTab('all')">Tumu</button>
       <button class="tab" id="tab-giris" onclick="setTab('giris')">Giris</button>
@@ -123,7 +129,7 @@
   <div class="entries" id="entries-list"></div>
 </div>
 
-<!-- FORM -->
+<!-- KAYIT FORMU -->
 <div class="overlay hidden" id="form-overlay">
   <div class="sheet">
     <div class="sheet-header">
@@ -159,6 +165,19 @@
     <div class="confirm-buttons">
       <button class="btn-cancel" onclick="closeConfirm()">Iptal</button>
       <button class="btn-confirm-del" onclick="confirmDelete()">Sil</button>
+    </div>
+  </div>
+</div>
+
+<!-- DEVİR ONAY -->
+<div class="confirm-overlay hidden" id="devir-overlay">
+  <div class="confirm-box">
+    <div class="confirm-icon">&#128198;</div>
+    <div class="confirm-title" id="devir-title">Ayi kapat ve devret?</div>
+    <div class="confirm-sub" id="devir-sub"></div>
+    <div class="confirm-buttons">
+      <button class="btn-cancel" onclick="closeDevirConfirm()">Iptal</button>
+      <button class="btn-confirm-ok" onclick="confirmDevir()">Devret</button>
     </div>
   </div>
 </div>
@@ -218,6 +237,7 @@
     bar.innerHTML = msg;
   }
 
+  // AY NAVİGASYON
   function changeMonth(dir) {
     currentMonth += dir;
     if (currentMonth > 11) { currentMonth = 0; currentYear++; }
@@ -225,6 +245,85 @@
     render();
   }
 
+  // DEVİR
+  function getMonthBalance(month, year) {
+    var total = 0;
+    entries.forEach(function(e) {
+      var p = e.date.split('-');
+      if (parseInt(p[1])-1 === month && parseInt(p[0]) === year) {
+        total += e.type === 'giris' ? e.amount : -e.amount;
+      }
+    });
+    return total;
+  }
+
+  function getLastDayOfMonth(month, year) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function hasDevir(month, year) {
+    var nextMonth = month + 1 > 11 ? 0 : month + 1;
+    var nextYear = month + 1 > 11 ? year + 1 : year;
+    var label = AYLAR[month] + ' Devri';
+    return entries.some(function(e) {
+      var p = e.date.split('-');
+      return parseInt(p[1])-1 === nextMonth && parseInt(p[0]) === nextYear && e.description === label && e.type === 'giris';
+    });
+  }
+
+  function openDevirConfirm() {
+    var bakiye = getMonthBalance(currentMonth, currentYear);
+    var nextMonth = currentMonth + 1 > 11 ? 0 : currentMonth + 1;
+    var nextYear = currentMonth + 1 > 11 ? currentYear + 1 : currentYear;
+
+    if (hasDevir(currentMonth, currentYear)) {
+      alert(AYLAR[currentMonth] + ' ayi icin zaten devir yapilmis!');
+      return;
+    }
+
+    if (bakiye <= 0) {
+      alert('Bu ayin bakiyesi 0 veya eksik, devir yapilmaz.');
+      return;
+    }
+
+    document.getElementById('devir-title').textContent = AYLAR[currentMonth] + ' ayini kapat?';
+    document.getElementById('devir-sub').innerHTML =
+      '<b style="color:#d4a84b">' + fmt(bakiye) + '</b> bakiye ' +
+      '<b>' + AYLAR[nextMonth] + ' ' + nextYear + '</b> ayina<br>"' +
+      AYLAR[currentMonth] + ' Devri" olarak aktarilacak.';
+    document.getElementById('devir-overlay').classList.remove('hidden');
+  }
+
+  function closeDevirConfirm() {
+    document.getElementById('devir-overlay').classList.add('hidden');
+  }
+
+  function confirmDevir() {
+    var bakiye = getMonthBalance(currentMonth, currentYear);
+    var nextMonth = currentMonth + 1 > 11 ? 0 : currentMonth + 1;
+    var nextYear = currentMonth + 1 > 11 ? currentYear + 1 : currentYear;
+    var lastDay = getLastDayOfMonth(nextMonth, nextYear);
+    var nextDate = nextYear + '-' + ('0'+(nextMonth+1)).slice(-2) + '-01';
+
+    entries.unshift({
+      id: Date.now(),
+      date: nextDate,
+      type: 'giris',
+      description: AYLAR[currentMonth] + ' Devri',
+      amount: bakiye
+    });
+
+    closeDevirConfirm();
+
+    // Bir sonraki aya geç
+    currentMonth = nextMonth;
+    currentYear = nextYear;
+
+    render();
+    saveToCloud();
+  }
+
+  // FORMAT
   function fmt(n) {
     var num = parseFloat(n) || 0;
     return num.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.') + ' TL';
@@ -240,12 +339,13 @@
     return d.getFullYear() + '-' + ('0'+(d.getMonth()+1)).slice(-2) + '-' + ('0'+d.getDate()).slice(-2);
   }
 
+  // RENDER
   function render() {
     document.getElementById('month-label').textContent = AYLAR[currentMonth] + ' ' + currentYear;
 
     var monthEntries = entries.filter(function(e) {
-      var parts = e.date.split('-');
-      return parseInt(parts[1])-1 === currentMonth && parseInt(parts[0]) === currentYear;
+      var p = e.date.split('-');
+      return parseInt(p[1])-1 === currentMonth && parseInt(p[0]) === currentYear;
     });
 
     var filtered = monthEntries.filter(function(e) {
@@ -275,6 +375,16 @@
     cardB.style.background = bak >= 0 ? 'rgba(212,168,75,0.1)' : 'rgba(248,113,113,0.1)';
     cardB.style.border = bak >= 0 ? '1px solid rgba(212,168,75,0.2)' : '1px solid rgba(248,113,113,0.2)';
 
+    // Devir butonu — zaten devir yapıldıysa gizle
+    var devirBtn = document.getElementById('btn-devir');
+    if (hasDevir(currentMonth, currentYear)) {
+      devirBtn.style.display = 'none';
+    } else {
+      devirBtn.style.display = 'block';
+      devirBtn.textContent = '→ ' + AYLAR[currentMonth] + ' Ayini Kapat ve ' + (currentMonth === 11 ? AYLAR[0] + ' ' + (currentYear+1) : AYLAR[currentMonth+1] + ' ' + currentYear) + ' Ayina Devret';
+    }
+
+    // Kümülatif harita
     var allSorted = entries.slice().sort(function(a, b) {
       if (a.date < b.date) return -1;
       if (a.date > b.date) return 1;
@@ -326,9 +436,11 @@
         var sign = isG ? '+' : '-';
         var cumColor = bval >= 0 ? '#d4a84b' : '#f87171';
         var typeLabel = isG ? 'Giris' : 'Cikis';
-        html += '<div class="entry" style="border:1px solid ' + borderColor + ';border-left:3px solid ' + leftBorder + '">';
+        var isDevir = e.description.indexOf('Devri') !== -1 && e.type === 'giris';
+
+        html += '<div class="entry" style="border:1px solid ' + borderColor + ';border-left:3px solid ' + leftBorder + (isDevir ? ';opacity:0.8' : '') + '">';
         html += '<div class="entry-left">';
-        html += '<div class="entry-meta">' + typeLabel + '</div>';
+        html += '<div class="entry-meta">' + typeLabel + (isDevir ? ' &#128198;' : '') + '</div>';
         html += '<div class="entry-desc">' + escHtml(e.description) + '</div>';
         html += '<div class="entry-cumulative">Kumulatif: <span style="color:' + cumColor + '">' + fmt(bval) + '</span></div>';
         html += '</div><div class="entry-right">';
@@ -447,7 +559,6 @@
     saveToCloud();
   }
 
-  // BAŞLAT
   loadFromCloud();
 </script>
 </body>
